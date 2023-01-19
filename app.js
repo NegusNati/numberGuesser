@@ -1,7 +1,7 @@
 //Game Values
 let min = 1,
   max = 10,
-  winnningNum = 2,
+  winnningNum = getRandomNum(min,max),
   guessesLeft = 3;
 
 //UI elements
@@ -16,6 +16,13 @@ const UIgame = document.getElementById("game"),
 
 UiMinNum.textContent = min;
 UiMaxNum.textContent = max;
+
+//play again 
+UIgame.addEventListener('mousedown', function(e){
+  if(e.target.className === 'play-again'){
+    window.location.reload();
+  }
+})
 
 //event listener to the submit
 UiGuessBtn.addEventListener("click", function () {
@@ -36,6 +43,7 @@ UiGuessBtn.addEventListener("click", function () {
     // setMessage(`Your Guess Won the Game`, "green");
 
     gameOver(true, `Your ${winnningNum} Guess Won the Game`);
+    // UiGuessBtn.addEventListener('click', playAgain);
   } else {
     //wnat to subtract from guesses left
     guessesLeft -= 1;
@@ -53,6 +61,7 @@ UiGuessBtn.addEventListener("click", function () {
         false,
         `You run out of trials, the correct number was ${winnningNum}. Game Over!`
       );
+      // UiGuessBtn.addEventListener('click', playAgain);
     } else {
       // game resume - answer wrong
       setMessage(
@@ -76,7 +85,17 @@ function gameOver(won, msg) {
   UiGuessInput.style.borderColor = color;
   //let them know they won
   setMessage(msg, color);
+  UiGuessBtn.value = "Play Again";
+  UiGuessBtn.className += "play-again";
 }
+
+
+//winning num
+
+function getRandomNum(min, max){
+  return Math.floor(Math.random() *(max-min+1) + min);
+}
+
 
 //set message
 
@@ -84,3 +103,8 @@ function setMessage(msg, color = "black") {
   Uimessage.style.color = color;
   Uimessage.innerHTML = msg;
 }
+
+// function playAgain(){
+//   window.location.reload() 
+
+// }
